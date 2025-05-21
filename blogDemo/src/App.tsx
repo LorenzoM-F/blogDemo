@@ -2,9 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import BlogDetail from "./pages/BlogDetail.tsx";
-import BlogList from "./pages/BlogList.tsx";
 import Home from "./pages/Home";
-import AllBlogs from "./pages/AllBlogs.tsx";
+import Gallery from "./pages/Gallery.tsx";
 
 const App: React.FC = () => {
   return (
@@ -12,6 +11,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blog/:id" element={<BlogDetail />} />
+        <Route path="/gallery" element={<Gallery />} />
       </Routes>
     </Router>
   );

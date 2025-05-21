@@ -6,7 +6,7 @@ const navItems = [
   { name: "Home", href: "/" },
   { name: "Blogs", href: "#blogs" },
   { name: "For Sale", href: "#for-sale" },
-  { name: "Gallery", href: "#gallery" },
+  { name: "Gallery", href: "/gallery" },
   { name: "Contact", href: "#contact" },
 ];
 
@@ -15,19 +15,25 @@ const Header: React.FC = () => {
   const [currentHash, setCurrentHash] = useState<string>(window.location.hash || "/");
 
   useEffect(() => {
-    const handleHashChange = () => {
-      setCurrentHash(window.location.hash || "/");
+    const updateLocation = () => {
+      setCurrentHash(window.location.pathname + window.location.hash);
     };
 
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    updateLocation(); // Initial set
+    window.addEventListener("hashchange", updateLocation);
+    window.addEventListener("popstate", updateLocation); // Handles URL changes like /gallery
+
+    return () => {
+      window.removeEventListener("hashchange", updateLocation);
+      window.removeEventListener("popstate", updateLocation);
+    };
   }, []);
 
+
   const linkClasses = (href: string) =>
-    `px-3 py-2 rounded-lg ${
-      currentHash === href
-        ? "bg-sky-400 text-white"
-        : "text-gray-600 hover:text-gray-900"
+    `px-3 py-2 rounded-lg ${currentHash.endsWith(href)
+      ? "bg-sky-200 text-sky-800"
+      : "text-gray-600 hover:text-gray-900"
     }`;
 
   return (
