@@ -1,13 +1,20 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Home from './pages/Home';
+import BlogDetail from "./pages/BlogDetail.tsx";
+import BlogList from "./pages/BlogList.tsx";
+import Home from "./pages/Home";
+import AllBlogs from "./pages/AllBlogs.tsx";
 
-function App() {
-
+const App: React.FC = () => {
   return (
-    <>
-      <Home />
-    </>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/blog/:id" element={<BlogDetail />} />
+      </Routes>
+    </Router>
+  );
+};
 
 export default App;

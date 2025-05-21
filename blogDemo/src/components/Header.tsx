@@ -1,27 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+const navItems = [
+  { name: "Home", href: "/" },
+  { name: "Blogs", href: "#blogs" },
+  { name: "For Sale", href: "#for-sale" },
+  { name: "Gallery", href: "#gallery" },
+  { name: "Contact", href: "#contact" },
+];
+
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [currentHash, setCurrentHash] = useState<string>(window.location.hash || "/");
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentHash(window.location.hash || "/");
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  const linkClasses = (href: string) =>
+    `px-3 py-2 rounded-lg ${
+      currentHash === href
+        ? "bg-sky-400 text-white"
+        : "text-gray-600 hover:text-gray-900"
+    }`;
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo / Title */}
-        <h1 className="text-2xl font-bold text-gray-800">MySite</h1>
+        <h1 className="text-2xl font-bold text-gray-800">My Blog</h1>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex space-x-6">
-          <a href="#blogs" className="text-gray-600 hover:text-gray-900">
-            Blogs
-          </a>
-          <a href="#for-sale" className="text-gray-600 hover:text-gray-900">
-            For Sale
-          </a>
-          <a href="#contact" className="text-gray-600 hover:text-gray-900">
-            Contact
-          </a>
+        <nav className="hidden md:flex space-x-4">
+          {navItems.map(({ name, href }) => (
+            <a key={href} href={href} className={linkClasses(href)}>
+              {name}
+            </a>
+          ))}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -45,15 +66,11 @@ const Header: React.FC = () => {
             className="md:hidden px-4 pb-4"
           >
             <nav className="flex flex-col space-y-2">
-              <a href="#blogs" className="text-gray-700 hover:text-gray-900">
-                Blogs
-              </a>
-              <a href="#for-sale" className="text-gray-700 hover:text-gray-900">
-                For Sale
-              </a>
-              <a href="#contact" className="text-gray-700 hover:text-gray-900">
-                Contact
-              </a>
+              {navItems.map(({ name, href }) => (
+                <a key={href} href={href} className={linkClasses(href)}>
+                  {name}
+                </a>
+              ))}
             </nav>
           </motion.div>
         )}
