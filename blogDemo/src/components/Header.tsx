@@ -7,7 +7,7 @@ const navItems = [
   { name: "Blogs", href: "#blogs" },
   { name: "For Sale", href: "#for-sale" },
   { name: "Gallery", href: "/gallery" },
-  { name: "Contact", href: "#contact" },
+  { name: "Contact", href: "/contact" },
 ];
 
 const Header: React.FC = () => {
